@@ -1,5 +1,7 @@
 # 🔥 Desafio Full Stack: `DevMatch – Plataforma de Mentoria entre Desenvolvedores`
 
+Sobre o projeto: O DevMatch é uma plataforma de mentoria entre devs, conectando mentores e mentorados com base em tecnologias dominadas, experiência e disponibilidade.
+
 ### 🎯 Objetivo
 
 Criar uma plataforma onde desenvolvedores possam **se cadastrar como mentores ou mentorados**, marcar sessões, compartilhar conhecimento, e construir reputação na comunidade.
@@ -72,9 +74,112 @@ Criar uma plataforma onde desenvolvedores possam **se cadastrar como mentores ou
 
 ---
 
-### 💣 Bônus (Nível Insano)
+# Banco de Dados
 
-* Sistema de recomendações com ML simples (ex: KNN para sugestões de mentores)
-* Painel de admin com estatísticas da plataforma
-* Internacionalização com i18n
-* Progressive Web App (PWA)
+### **Relatório Técnico – Banco de Dados DevMatch**
+
+<details>
+
+<summary><b>📄 | Clique aqui para obter mais informações</b></summary>
+
+### 📆 Data: 26/06/2025
+
+### 👨‍💻 Desenvolvedor: Baku-Stark
+
+---
+
+## 🎯 **Objetivo do Sistema**
+
+O DevMatch é uma plataforma de mentoria entre devs, conectando mentores e mentorados com base em tecnologias dominadas, experiência e disponibilidade.
+
+---
+
+## 🧩 **Modelagem de Dados**
+
+O banco foi modelado com base em entidades reais do domínio do sistema, utilizando boas práticas de **normalização**, **relacionamentos fortes** e **flexibilidade para escalabilidade futura**.
+
+---
+
+## 🏗️ **Tabelas Criadas**
+
+| Tabela                | Descrição                                                             |
+| --------------------- | --------------------------------------------------------------------- |
+| `users`               | Usuários da plataforma (mentores e mentorados)                        |
+| `tech_stacks`         | Tecnologias (React, Node, etc.)                                       |
+| `languages`           | Idiomas (Português, Inglês, etc.)                                     |
+| `user_tech_stacks`    | Relaciona usuários às stacks (N:N)                                   |
+| `user_languages`      | Relaciona usuários aos idiomas (N:N)                                 |
+| `mentorship_profiles` | Perfil de mentoria, associando usuário e stack, com bio e experiência |
+| `availability_slots`  | Horários disponíveis dos mentores                                     |
+| `sessions`            | Sessões de mentoria agendadas entre mentor e mentorado                |
+| `feedbacks`           | Avaliações e comentários pós-sessão                                   |
+
+---
+
+## 🔗 **Relacionamentos Chave**
+
+* `users` ⇄ `tech_stacks` → via `user_tech_stacks`
+* `users` ⇄ `languages` → via `user_languages`
+* `users` ⇄ `sessions` → (mentor\_id e mentee\_id)
+* `users` ⇄ `availability_slots` → apenas mentores
+* `mentorship_profiles` ⇄ `user_tech_stacks`
+* `sessions` ⇄ `feedbacks`
+
+---
+
+## 🧠 **Normalização & Tabelas de Apoio**
+
+Foram aplicadas **3FN**:
+
+* Stack e idiomas foram extraídos para tabelas próprias (`tech_stacks`, `languages`)
+* Tabelas de junção (`user_tech_stacks`, `user_languages`) garantem relacionamentos n\:N
+
+---
+
+## ⚙️ **Stored Procedures Implementadas**
+
+| Nome                    | Finalidade                                         |
+| ----------------------- | -------------------------------------------------- |
+| `agendar_sessao`        | Verifica disponibilidade do mentor e agenda sessão |
+| `cancelar_sessao`       | Altera status da sessão para cancelada             |
+| `inserir_feedback`      | Registra avaliação de uma sessão concluída         |
+| `criar_perfil_mentoria` | Associa tech stack ao mentor e cria perfil         |
+| `registrar_usuario`     | Cria novo usuário e associa stacks e idiomas       |
+
+---
+
+## 📈 **VIEWS, INDEXES e TRIGGERS**
+
+Foram **especificados**, mas não detalhados neste escopo final, por decisão do PO de encerrar a parte do banco.
+
+Possíveis sugestões para depois:
+
+* **Views** para dashboards (sessões por mentor, média de rating)
+* **Triggers** para logs de sessões
+* **Indexes** em campos como `email`, `created_at`, `tech_stacks_id`, `languages_id`
+
+---
+
+## 🛠️ **Tecnologias Usadas**
+
+* **SGBD**: PostgreSQL
+* **PKs**: UUIDs para entidades principais
+* **Chaves Estrangeiras**: com `ON DELETE CASCADE`
+* **Funções**: escritas em **PL/pgSQL**
+
+---
+
+## ✅ **Status Final**
+
+| Item                      | Status                         |
+| ------------------------- | ------------------------------ |
+| **Modelagem ER**              | ✅                              |
+| **Criação do Schema**         | ✅                              |
+| **Normalização até 3FN**      | ✅                              |
+| **Foreign Keys**              | ✅                              |
+| **Stored Procedures**         | ✅                              |
+| **Inserções Exemplo**         | ✅                              |
+| **Views/Triggers** | ✅ |
+| **Documentação Técnica**      | ✅                              |
+
+</details
