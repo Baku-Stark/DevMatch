@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2025-06-25 09:14:15.858
+-- Last modification date: 2025-06-26 11:54:02.151
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -16,7 +16,7 @@ CREATE TABLE availability_slots (
 
 -- Table: feedbacks
 CREATE TABLE feedbacks (
-    id uuid  NOT NULL,
+    id uuid  NOT NULL DEFAULT uuid_generate_v4(),
     session_id uuid  NOT NULL,
     rating int  NOT NULL,
     comment text  NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE languages (
 
 -- Table: mentorship_profiles
 CREATE TABLE mentorship_profiles (
-    id uuid  NOT NULL,
+    id uuid  NOT NULL DEFAULT uuid_generate_v4(),
     bio text  NOT NULL,
     experience_level varchar(25)  NOT NULL,
     uts_user_id uuid  NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE mentorship_profiles (
 
 -- Table: sessions
 CREATE TABLE sessions (
-    id uuid  NOT NULL,
+    id uuid  NOT NULL DEFAULT uuid_generate_v4(),
     mentor_id uuid  NOT NULL,
     mentee_id uuid  NOT NULL,
     scheduled_at timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -82,6 +82,7 @@ CREATE TABLE users (
     role varchar(20)  NOT NULL,
     avatar_url text  NOT NULL,
     created_at timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uniq_email UNIQUE (email) NOT DEFERRABLE  INITIALLY IMMEDIATE,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
