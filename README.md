@@ -82,25 +82,19 @@ Criar uma plataforma onde desenvolvedores possam **se cadastrar como mentores ou
 
 <summary><b>📄 | Clique aqui para obter mais informações</b></summary>
 
-### 📆 Data: 26/06/2025
+### Data: 26/06/2025
 
-### 👨‍💻 Desenvolvedor: Baku-Stark
-
----
-
-## 🎯 **Objetivo do Sistema**
-
-O DevMatch é uma plataforma de mentoria entre devs, conectando mentores e mentorados com base em tecnologias dominadas, experiência e disponibilidade.
+### Desenvolvedor: Baku-Stark
 
 ---
 
-## 🧩 **Modelagem de Dados**
+## **Modelagem de Dados**
 
 O banco foi modelado com base em entidades reais do domínio do sistema, utilizando boas práticas de **normalização**, **relacionamentos fortes** e **flexibilidade para escalabilidade futura**.
 
 ---
 
-## 🏗️ **Tabelas Criadas**
+## **Tabelas Criadas**
 
 | Tabela                | Descrição                                                             |
 | --------------------- | --------------------------------------------------------------------- |
@@ -116,7 +110,7 @@ O banco foi modelado com base em entidades reais do domínio do sistema, utiliza
 
 ---
 
-## 🔗 **Relacionamentos Chave**
+## **Relacionamentos Chave**
 
 * `users` ⇄ `tech_stacks` → via `user_tech_stacks`
 * `users` ⇄ `languages` → via `user_languages`
@@ -127,7 +121,7 @@ O banco foi modelado com base em entidades reais do domínio do sistema, utiliza
 
 ---
 
-## 🧠 **Normalização & Tabelas de Apoio**
+## **Normalização & Tabelas de Apoio**
 
 Foram aplicadas **3FN**:
 
@@ -136,7 +130,7 @@ Foram aplicadas **3FN**:
 
 ---
 
-## ⚙️ **Stored Procedures Implementadas**
+## **Stored Procedures Implementadas**
 
 | Nome                    | Finalidade                                         |
 | ----------------------- | -------------------------------------------------- |
@@ -148,7 +142,7 @@ Foram aplicadas **3FN**:
 
 ---
 
-## 📈 **VIEWS, INDEXES e TRIGGERS**
+## **VIEWS, INDEXES e TRIGGERS**
 
 Foram **especificados**, mas não detalhados neste escopo final, por decisão do PO de encerrar a parte do banco.
 
@@ -160,7 +154,7 @@ Possíveis sugestões para depois:
 
 ---
 
-## 🛠️ **Tecnologias Usadas**
+## **Tecnologias Usadas**
 
 * **SGBD**: PostgreSQL
 * **PKs**: UUIDs para entidades principais
@@ -169,7 +163,7 @@ Possíveis sugestões para depois:
 
 ---
 
-## ✅ **Status Final**
+## **Status Final**
 
 | Item                      | Status                         |
 | ------------------------- | ------------------------------ |
