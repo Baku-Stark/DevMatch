@@ -176,4 +176,15 @@ Possíveis sugestões para depois:
 | **Views/Triggers** | ✅ |
 | **Documentação Técnica**      | ✅                              |
 
-</details
+</details>
+
+### **Relatório Técnico – Backend DevMatch**
+
+<details>
+
+<summary><b>📄 | Clique aqui para obter mais informações</b></summary>
+
+>[!NOTE]
+> Para informações mais detalhadas da API: [Clique Aqui](/api/README.md)
+
+</details>
