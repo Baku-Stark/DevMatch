@@ -1,7 +1,7 @@
 from api.services.Monitoramento import Monitoramento
 monitor = Monitoramento()
 
-from fastapi import APIRouter, Request,status
+from fastapi import APIRouter, Request, status
 router = APIRouter()
 
 @router.get("/", status_code=status.HTTP_200_OK, summary="Primeira rota criada para testes")

@@ -1,6 +1,5 @@
 import uvicorn
-
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from routes import api_router
 app = FastAPI(
     title="DevMatch - Backend",
