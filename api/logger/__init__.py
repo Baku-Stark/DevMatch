@@ -37,3 +37,5 @@ class Logger:
 
     def error(self, message):
         self._log(color_code=self._ERROR, message=message)
+
+logger = Logger(process_name="DevMatch - Backend")

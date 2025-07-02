@@ -1,4 +1,5 @@
 import uvicorn
+from logger import logger
 from fastapi import FastAPI
 from routes import api_router
 app = FastAPI(
@@ -10,9 +11,6 @@ app = FastAPI(
     }
 )
 app.include_router(api_router)
-
-from logger import Logger
-logger = Logger(process_name="DevMatch - Backend")
 
 if __name__ == '__main__':
     logger.info("Servidor rodando em http://localhost:8000/ | Docs: http://localhost:8000/docs#/")

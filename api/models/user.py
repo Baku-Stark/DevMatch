@@ -1,7 +1,6 @@
 import uuid
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from datetime import datetime
 from api.db.database import Base
 
 class User(Base):
@@ -12,7 +11,7 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     role = Column(String(20), nullable=False)
     avatar_url = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime)
 
 class MentorProfileView(Base):
     __tablename__ = "view_mentor_profiles"
