@@ -1,3 +1,4 @@
+from api.logger import logger
 from api.services.Monitoramento import Monitoramento
 monitor = Monitoramento()
 
@@ -26,13 +27,14 @@ def get_db():
     summary="Retorna os horários disponíveis de um mentor"
 )
 async def get_availability_by_mentor(mentor_id: UUID, request: Request, db: Session = Depends(get_db)):
-    #print(f"Requisição (UUID): {mentor_id}")
+    user_ip = request.client.host
+    #logger.debug(f"Requisição (UUID): {mentor_id}")
     try:
         slots = db.query(AvailabilitySlot).filter(AvailabilitySlot.mentor_id == mentor_id).all()
-
-        user_ip = request.client.host
-        monitor.registrar_acao(f"Acesso na AvailabilitySlot (mentor_id={mentor_id})",
-                               ip=user_ip)  # MÉTODO DE REGISTRO NO ARQUIVO EXCEL
+        monitor.registrar_acao(
+            f"Acesso na AvailabilitySlot (mentor_id={mentor_id})",
+            ip=user_ip
+        )  # MÉTODO DE REGISTRO NO ARQUIVO EXCEL
 
         if not slots:
             raise HTTPException(
@@ -41,9 +43,11 @@ async def get_availability_by_mentor(mentor_id: UUID, request: Request, db: Sess
             )
 
     except Exception as error:
+        logger.error(f"Erro na resquisição ('{request.url}')")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(error)
         ) from error
 
+    logger.info(f"GET Horário disponível do mentor - ('{request.url}')")
     return slots
