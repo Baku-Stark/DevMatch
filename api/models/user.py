@@ -1,5 +1,4 @@
 import uuid
-
 from pydantic.v1 import UUID4
 from sqlalchemy import String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
