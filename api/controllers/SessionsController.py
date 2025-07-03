@@ -1,11 +1,12 @@
 from api.logger import logger
 from api.services.Monitoramento import Monitoramento
+from api.services.SessionsService import findall_sessions, findall_scheduled_sessions
+
 monitor = Monitoramento()
 
 from fastapi import APIRouter, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
 
-from api.models.sessions import ScheduledSessionsView, SessionsModel
 from api.schemas.sessions import ScheduledSessionsRead, SessionsSchema
 
 router = APIRouter()
@@ -29,7 +30,7 @@ def get_db():
 async def all_sessions(request: Request, db : Session = Depends(get_db)):
     user_ip = request.client.host
     try:
-        query = db.query(SessionsModel).all()
+        query = findall_sessions(db)
         monitor.registrar_acao(f"Usuário acessou a rota all_sessions", ip=user_ip)  # MÉTODO DE REGISTRO NO ARQUIVO EXCEL
 
     except Exception as error:
@@ -53,7 +54,7 @@ async def all_sessions(request: Request, db : Session = Depends(get_db)):
 async def scheduled_sessions(request: Request, db : Session = Depends(get_db)):
     user_ip = request.client.host
     try:
-        query = db.query(ScheduledSessionsView).all()
+        query = findall_scheduled_sessions(db)
         monitor.registrar_acao(f"Usuário acessou a rota scheduled_sessions (VIEW)", ip=user_ip)  # MÉTODO DE REGISTRO NO ARQUIVO EXCEL
 
     except Exception as error:

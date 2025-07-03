@@ -2,8 +2,7 @@ from sqlalchemy.orm import Session
 from api.logger import logger
 from api.models.user import User, MentorProfileView
 
-
-# INSERIR UM NOVO USUÁRIO NO BANCO DE DADOS
+# LEITURA DO BANCO DE DADOS
 def findall_users(db : Session) -> list[type[User]]:
     """
     Busca TODOS os usuários.
@@ -39,7 +38,8 @@ def users_mentors(db : Session) -> list[type[MentorProfileView]] :
     query = db.query(MentorProfileView).all()
     return query
 
-def insert_new_user(new_user : User, db : Session):
+# INSERIR UM NOVO USUÁRIO NO BANCO DE DADOS
+def insert_new_user(new_user : User, db : Session) -> User:
     """
     Insere um novo usuário no banco de dados.
 
