@@ -1,13 +1,13 @@
 from api.logger import logger
 from api.services.Monitoramento import Monitoramento
-from api.services.UsersService import insert_new_user, users_mentors
+from api.services.UsersService import insert_new_user, users_mentors, findall_users
 
 monitor = Monitoramento()
 
 from fastapi import APIRouter, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
 
-from api.models.user import User, MentorProfileView
+from api.models.user import User
 from api.schemas.user import UserRead, MentorProfileRead, UserCreate
 
 router = APIRouter()
@@ -33,7 +33,7 @@ async def list_users(request: Request, db: Session = Depends(get_db)):
 
     try:
         monitor.registrar_acao(f"Usuário acessou a rota Users", ip=user_ip)  # MÉTODO DE REGISTRO NO ARQUIVO EXCEL
-        query = db.query(User).all()
+        query = findall_users(db)
 
     except Exception as error:
         logger.error(f"Erro na resquisição ('{request.url}')")
