@@ -1,6 +1,6 @@
 import uuid
 from pydantic.v1 import UUID4
-from sqlalchemy import String, DateTime
+from sqlalchemy import String, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -14,7 +14,8 @@ class User(Base):
     email : Mapped[String] = mapped_column(String, unique=True, nullable=False)
     role : Mapped[String] = mapped_column(String(20), nullable=False)
     avatar_url : Mapped[String] = mapped_column(String, nullable=False)
-    created_at : Mapped[DateTime] = mapped_column(DateTime)
+    created_at : Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at : Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
 class MentorProfileView(Base):
     __tablename__ = "view_mentor_profiles"
