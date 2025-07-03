@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from api.logger import logger
 from api.models.sessions import SessionsModel, ScheduledSessionsView
 
-
 # LEITURA DO BANCO DE DADOS
 def findall_sessions(db : Session) -> list[type[SessionsModel]]:
     """
