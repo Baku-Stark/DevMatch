@@ -1,12 +1,11 @@
 from api.logger import logger
+from api.services.AvailabilityService import find_availability_by_mentor
 from api.services.Monitoramento import Monitoramento
 monitor = Monitoramento()
 
 from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
 from uuid import UUID
-
-from api.models.availability import AvailabilitySlot
 from api.schemas.availability import AvailabilitySlotRead
 import api.db.database as database
 
@@ -30,7 +29,7 @@ async def get_availability_by_mentor(mentor_id: UUID, request: Request, db: Sess
     user_ip = request.client.host
     #logger.debug(f"Requisição (UUID): {mentor_id}")
     try:
-        slots = db.query(AvailabilitySlot).filter(AvailabilitySlot.mentor_id == mentor_id).all()
+        slots = find_availability_by_mentor(mentor_id, db)
         monitor.registrar_acao(
             f"Acesso na AvailabilitySlot (mentor_id={mentor_id})",
             ip=user_ip
