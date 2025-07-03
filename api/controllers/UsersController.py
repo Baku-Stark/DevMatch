@@ -1,6 +1,7 @@
+from uuid import UUID
 from api.logger import logger
 from api.services.Monitoramento import Monitoramento
-from api.services.UsersService import insert_new_user, users_mentors, findall_users
+from api.services.UsersService import insert_new_user, users_mentors, findall_users, delete_a_user
 
 monitor = Monitoramento()
 
@@ -75,7 +76,7 @@ async def list_mentors(request: Request, db: Session = Depends(get_db)):
     status_code=status.HTTP_201_CREATED,
     summary="Registrar novos usuários"
 )
-def sign_up(new_user : UserCreate, request: Request, db : Session = Depends(get_db)):
+async def sign_up(new_user : UserCreate, request: Request, db : Session = Depends(get_db)):
     user_ip = request.client.host
 
     try:
@@ -90,4 +91,26 @@ def sign_up(new_user : UserCreate, request: Request, db : Session = Depends(get_
 
     logger.info(f"Criação do usuário [IP:{user_ip}] : {new_user}")
 
+    return query
+
+# USUÁRIO DECIDIU APAGAR SUA CONTA
+
+@router.delete(
+    "/delete_a_user",
+    status_code=status.HTTP_202_ACCEPTED,
+    summary="Apagar a conta de um usuário pelo UUID"
+)
+async def delete_user_by_uuid(user_id : UUID, request: Request, db: Session = Depends(get_db)):
+    user_ip = request.client.host
+    try:
+        query = delete_a_user(user_id, db)
+
+    except Exception as error:
+        logger.error(f"Erro na resquisição ('{request.url}')")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(error)
+        ) from error
+
+    logger.info(f"Conta apagada [IP:{user_ip}] : {user_id}")
     return query

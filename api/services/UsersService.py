@@ -1,3 +1,4 @@
+from uuid import UUID
 from sqlalchemy.orm import Session
 from api.logger import logger
 from api.models.user import User, MentorProfileView
@@ -65,3 +66,34 @@ def insert_new_user(new_user : User, db : Session) -> User:
 # ATUALIZAR INFORMAÇÕES
 
 # APAGAR CONTA
+def delete_a_user(user_id : UUID, db : Session) -> dict:
+    """
+    Apagar a conta de um usuário pelo seu UUID.
+
+    Parameters
+    ----------
+    user_id : UUID
+        UUID do usuário que será deletado do banco de dados.
+
+    db : Session
+        Sessão ativa do SQLAlchemy para comunicação com o banco.
+
+    Returns
+    -------
+    dict
+        {"ok": True}
+    """
+    global query
+
+    try:
+        logger.debug(f"Serviço 'delete_a_user' : Acessando banco de dados")
+        query = db.query(User).filter(User.id == user_id).first()
+
+    except Exception as error:
+        logger.error(error)
+
+    finally:
+        db.delete(query)
+        db.commit()
+
+    return {"ok": True}
