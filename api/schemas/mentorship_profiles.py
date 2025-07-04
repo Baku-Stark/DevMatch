@@ -18,6 +18,15 @@ class MentorshipProfilesRead(MentorshipProfilesBase):
     class Config:
         from_attributes = True  # substitui orm_mode no Pydantic v2
 
+class MentorshipProfileProcedure(BaseModel):
+    bio: str
+    experience_level: str
+    uts_user_id: UUID
+    uts_tech_stack_id: int
+
+    class Config:
+        from_attributes = True  # substitui orm_mode no Pydantic v2
+
 class MentorProfileRead(BaseModel):
     user_id: UUID
     mentor_name: str

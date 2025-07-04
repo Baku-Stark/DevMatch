@@ -50,7 +50,7 @@ def insert_new_mentorship_profile(new_mentorship_profile : dict, db : Session) -
         )
     except Exception as error:
         db.rollback()
-        logger.error(error)
+        raise logger.error(error)
     finally:
         db.commit()
         #db.refresh(MentorshipProfiles(new_mentorship_profile))
