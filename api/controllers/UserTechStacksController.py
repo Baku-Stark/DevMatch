@@ -49,11 +49,11 @@ async def get_user_tech_stacks(request: Request, db: Session = Depends(get_db)):
     status_code=status.HTTP_201_CREATED,
     summary="Relacionar tecnologias aos usuários"
 )
-async def new_user_tech_stacks(new_user_tech_stacks : UserTechStacksCreate, request: Request, db : Session = Depends(get_db)):
+async def new_user_tech_stacks(new_user_tech_stacks_json : UserTechStacksCreate, request: Request, db : Session = Depends(get_db)):
     user_ip = request.client.host
 
     try:
-        query = insert_new_user_tech_stacks(UserTechStacks(**new_user_tech_stacks.model_dump()), db)
+        query = insert_new_user_tech_stacks(UserTechStacks(**new_user_tech_stacks_json.model_dump()), db)
 
     except Exception as error:
         logger.error(f"Erro na resquisição ('{request.url}')")
@@ -62,5 +62,5 @@ async def new_user_tech_stacks(new_user_tech_stacks : UserTechStacksCreate, requ
             detail=str(error)
         ) from error
 
-    logger.info(f"Inserção de relação [IP:{user_ip}] : {new_user_tech_stacks}")
+    logger.info(f"Inserção de relação [IP:{user_ip}] : {new_user_tech_stacks_json.model_dump()}")
     return query

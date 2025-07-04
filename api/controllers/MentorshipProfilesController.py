@@ -7,7 +7,8 @@ from api.services.Monitoramento import Monitoramento
 monitor = Monitoramento()
 
 from fastapi import APIRouter, status, Request, HTTPException, Depends
-from api.schemas.mentorship_profiles import MentorshipProfilesRead, MentorshipProfilesCreate, MentorProfileRead
+from api.schemas.mentorship_profiles import MentorshipProfilesRead, MentorshipProfilesCreate, MentorProfileRead, \
+    MentorshipProfileProcedure
 
 router = APIRouter()
 
@@ -46,7 +47,7 @@ async def get_mentorship_profiles(request: Request, db: Session = Depends(get_db
 
 @router.post(
     "/new_mentorship_profile",
-    response_model=MentorshipProfilesRead,
+    response_model=MentorshipProfileProcedure,
     status_code=status.HTTP_201_CREATED,
     summary="Insere um novo perfil de mentor no banco de dados."
 )
@@ -54,10 +55,7 @@ async def new_mentorship_profile(new_mentorship_profile_json : MentorshipProfile
     user_ip = request.client.host
 
     try:
-        #print(new_mentorship_profile_json.model_dump())
-
         query = insert_new_mentorship_profile(new_mentorship_profile_json.model_dump(), db)
-        #print(query)
     except ResponseValidationError as fastAPIerror:
         logger.error(fastAPIerror)
         raise HTTPException(
