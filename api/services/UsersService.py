@@ -60,6 +60,7 @@ def insert_new_user(new_user : User, db : Session) -> User:
         logger.debug(f"Inserindo novo usuário : {new_user}")
         db.add(new_user)
     except Exception as error:
+        db.rollback()
         logger.error(error)
     finally:
         db.commit()
@@ -94,6 +95,7 @@ def delete_a_user(user_id : UUID, db : Session) -> dict:
         query = db.query(User).filter(User.id == user_id).first()
 
     except Exception as error:
+        db.rollback()
         logger.error(error)
 
     finally:

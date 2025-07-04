@@ -1,3 +1,6 @@
+from uuid import UUID
+
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from api.logger import logger
@@ -22,30 +25,36 @@ def findall_mentorship_profiles(db : Session) -> list[type[MentorshipProfiles]]:
     return db.query(MentorshipProfiles).all()
 
 # INSERÇÃO DE UM NOVO MENTOR (PERFIL)
-def insert_new_mentorship_profile(new_mentorship_profile : MentorshipProfiles, db : Session) -> MentorshipProfiles:
+def insert_new_mentorship_profile(new_mentorship_profile : dict, db : Session) -> dict:
     """
     Insere um novo perfil de mentor no banco de dados.
 
     Parameters
     ----------
-    new_mentorship_profile : MentorshipProfiles
+    new_mentorship_profile : dict
         Instância do modelo SQLAlchemy representando o novo usuário mentor.
     db : Session
         Sessão ativa do SQLAlchemy para comunicação com o banco.
 
     Returns
     -------
-    MentorshipProfiles
+    dict
         O usuário Mentor criado com campos atualizados do banco.
     """
     try:
-        logger.debug(f"Inserindo novo usuário (Mentor) : {new_mentorship_profile}")
-        db.add(new_mentorship_profile)
+        logger.debug(f"Inserindo novo usuario (Mentor) : {new_mentorship_profile}")
+        # chamar a stored procedure 'criar_perfil_mentoria'
+        db.execute(
+            text("CALL criar_perfil_mentoria(:bio, :experience_level, :uts_user_id, :uts_tech_stack_id)"),
+            new_mentorship_profile
+        )
     except Exception as error:
+        db.rollback()
         logger.error(error)
     finally:
         db.commit()
-        db.refresh(new_mentorship_profile)
+        #db.refresh(MentorshipProfiles(new_mentorship_profile))
+        # não precisa fazer db.refresh() após chamar uma procedure que não retorna um objeto diretamente inserido na sessão do SQLAlchemy.
     logger.info(f"Perfil de Mentor '{new_mentorship_profile}' criado.")
     return new_mentorship_profile
 
