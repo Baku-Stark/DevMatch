@@ -90,13 +90,12 @@ async def sign_up(new_user : UserCreate, request: Request, db : Session = Depend
         ) from error
 
     logger.info(f"Criação do usuário [IP:{user_ip}] : {new_user}")
-
     return query
 
 # USUÁRIO DECIDIU APAGAR SUA CONTA
 
 @router.delete(
-    "/delete_a_user",
+    "/delete_user_by_id",
     status_code=status.HTTP_202_ACCEPTED,
     summary="Apagar a conta de um usuário pelo UUID"
 )

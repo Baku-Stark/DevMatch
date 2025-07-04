@@ -1,0 +1,16 @@
+import uuid
+
+from sqlalchemy import String, Integer, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import Mapped, mapped_column
+
+from api.db.database import Base
+
+class MentorshipProfiles(Base):
+    __tablename__ = "mentorship_profiles"
+
+    id : Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    bio : Mapped[String] = mapped_column(String, nullable=False)
+    experience_level : Mapped[String] = mapped_column(String, nullable=False)
+    uts_user_id : Mapped[UUID] = mapped_column(ForeignKey("user_tech_stacks.user_id"))
+    uts_tech_stack_id : Mapped[Integer] = mapped_column(ForeignKey("user_tech_stacks.tech_stacks_id"))

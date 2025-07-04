@@ -56,11 +56,15 @@ def insert_new_user(new_user : User, db : Session) -> User:
     User
         O usuário criado com campos atualizados do banco.
     """
-    logger.debug(f"Inserindo novo usuário : {new_user}")
-
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+    try:
+        logger.debug(f"Inserindo novo usuário : {new_user}")
+        db.add(new_user)
+    except Exception as error:
+        logger.error(error)
+    finally:
+        db.commit()
+        db.refresh(new_user)
+    logger.info(f"Usuário {new_user} foi criado.")
     return new_user
 
 # ATUALIZAR INFORMAÇÕES
@@ -95,5 +99,5 @@ def delete_a_user(user_id : UUID, db : Session) -> dict:
     finally:
         db.delete(query)
         db.commit()
-
+    logger.info(f"Usuário (ID) {user_id} foi deletado.")
     return {"ok": True}
