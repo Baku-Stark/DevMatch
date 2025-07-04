@@ -1,6 +1,6 @@
 from api.logger import logger
 from api.models.tech_stacks import UserTechStacks
-from api.schemas.tech_stacks import UserTechStacksBase, UserTechStacksRead, UserTechStacksCreate
+from api.schemas.tech_stacks import UserTechStacksRead, UserTechStacksCreate
 from api.services.Monitoramento import Monitoramento
 from api.services.UserTechStacksService import findall_user_tech_stacks, insert_new_user_tech_stacks
 

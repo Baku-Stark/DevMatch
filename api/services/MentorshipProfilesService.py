@@ -1,28 +1,28 @@
-from uuid import UUID
-
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from api.logger import logger
-from api.models.mentorship_profiles import MentorshipProfiles
+from api.models.mentorship_profiles import MentorProfileView
+
 
 #LEITURA DO BANCO DE DADOS
-def findall_mentorship_profiles(db : Session) -> list[type[MentorshipProfiles]]:
+def get_users_mentors(db : Session) -> list[type[MentorProfileView]] :
     """
-        Resgatar uma lista do perfil de todos os mentores
+    Busca usuários (apenas os mentores)
 
-        Parameters
-        ----------
-        db : Session
-            Sessão ativa do SQLAlchemy para comunicação com o banco.
+    Parameters
+    ----------
+    db : Session
+        Sessão ativa do SQLAlchemy para comunicação com o banco.
 
-        Returns
-        -------
-        MentorshipProfiles
-            Lista dos mentores.
-        """
-    logger.debug(f"Serviço 'findall_mentorship_profiles' : Acessando banco de dados")
-    return db.query(MentorshipProfiles).all()
+    Returns
+    -------
+    User
+        O usuário (apenas 'mentors')
+    """
+    logger.debug(f"Serviço 'get_users_mentors' : Acessando banco de dados")
+    query = db.query(MentorProfileView).all()
+    return query
 
 # INSERÇÃO DE UM NOVO MENTOR (PERFIL)
 def insert_new_mentorship_profile(new_mentorship_profile : dict, db : Session) -> dict:
