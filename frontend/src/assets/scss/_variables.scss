@@ -1,0 +1,77 @@
+$main_fg-color: #f0f8ff;
+$main_bg-color: #111;
+
+@mixin Landing{
+    width: 100%;
+    height: 100vh;
+}
+
+@mixin flexAlignI-JC($align-items, $justify-content){
+    display: flex;
+    align-items: $align-items;
+    justify-content: $justify-content;
+}
+
+@mixin flexFlexDir-JC($flex-direction, $justify-content){
+    display: flex;
+    align-items: center;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+}
+
+@mixin GridLayout-Columns($content){
+    display: grid;
+    grid-template-columns: $content;
+}
+
+@mixin GridLayout-Rows($rows){
+    display: grid;
+    grid-template-rows: $rows;
+}
+
+@mixin GridLayout-RowsColumns($rows, $content){
+    display: grid;
+    grid-template-rows: $rows;
+    grid-template-columns: $content;
+}
+
+// ======================== MEDIA QUERY
+@mixin screenLANDSCAPE{
+    // celular deitado
+    @media (orientation: landscape){
+        @content;
+    }
+}
+
+@mixin screenPORTRAIT{
+    // celular em pé
+    @media (orientation: portrait){
+        @content;
+    }
+}
+
+@mixin screenTablet{
+    // and (min-width: 768px) and (max-width: 1024px)
+    @media screen and (max-width: 1024px){
+        @content;
+    }
+}
+
+@mixin screenTablet-bootstrap{
+    @media screen and (max-width: 991px){
+        @content;
+    }
+}
+
+@mixin screenTablet-low{
+    @media screen and (max-width: 825px){
+        @content;
+    }
+}
+
+@mixin screenPhone{
+    // and (min-width: 320px) and (max-width: 480px)
+    @media screen and (max-width: 480px){
+        @content;
+    }
+}

@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 *{
     margin: 0;
     padding: 0;
@@ -6,6 +8,6 @@
 }
 
 body{
-    color: #f0f8ff;
-    background-color: #111;
+    color: $main_fg-color;
+    background-color: $main_bg-color;
 }
