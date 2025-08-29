@@ -1,16 +1,12 @@
-import { Helmet } from 'react-helmet';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export default function About() {
+  useDocumentTitle('About Us');
+
   return (
-    <>
-      <Helmet>
-        <title>DevMatch - About</title>
-      </Helmet>
-      
-      <div style={{ padding: '2rem' }}>
-        <h1>Sobre Nós</h1>
-        <p>Bem-vindo à página About! Aqui você pode falar sobre sua empresa, missão ou equipe.</p>
-      </div>
-    </>
+    <div style={{ padding: '2rem' }}>
+      <h1>Sobre Nós</h1>
+      <p>Esta é a página About. Aqui você pode falar sobre sua missão, equipe ou história.</p>
+    </div>
   );
 }
