@@ -184,7 +184,8 @@ Possíveis sugestões para depois:
 
 <summary><b>📄 | Clique aqui para obter mais informações</b></summary>
 
->[!NOTE]
+> [!NOTE]
+>
 > Para informações mais detalhadas da API: [Clique Aqui](/api/README.md)
 
 </details>
