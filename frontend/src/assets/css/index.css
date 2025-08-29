@@ -7,14 +7,16 @@
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
 
-body,
-.content_container {
+body{
   color: var(--main-fg-color);
   background-color: var(--main-bg-color);
+}
+
+@layer components {
+  .heading-main {
+    @apply text-5xl md:text-6xl font-extrabold mb-4;
+  }
 }

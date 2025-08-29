@@ -1,5 +1,7 @@
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
+import SectionContainer from '../components/Containers/SectionContainer';
+
 export default function Home() {
     const typedText = useTypingEffect(
         'Connect. Mentor. Grow. A platform built for developers to share knowledge and build meaningful connections.',
@@ -20,7 +22,7 @@ export default function Home() {
             {/* Conteúdo centralizado */}
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
             <h1
-                className="text-5xl md:text-6xl font-extrabold mb-4"
+                className="heading-main"
                 style={{ color: 'var(--main-color)' }}>
                 Welcome to DevMatch
             </h1>
@@ -31,6 +33,16 @@ export default function Home() {
             </p>
             </div>
         </section>
+
+        <SectionContainer>
+            <div>
+                <h1
+                className="heading-main"
+                style={{ color: 'var(--main-color)' }}>
+                    DevMatch - Social Media
+                </h1>
+            </div>
+        </SectionContainer>
         </main>
     );
-    }
+}
