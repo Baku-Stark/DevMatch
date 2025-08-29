@@ -1,11 +1,11 @@
-import AppRoutes from "./routes/AppRoutes"
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
     <>
-      <h1>Home</h1>
-
+      {/* Sidebar */}
       <AppRoutes/>
+      {/* Footer */}
     </>
   )
 }
