@@ -1,9 +1,6 @@
-import AppRoutes from "../routes/AppRoutes"
-import { useDocumentTitle } from "../hooks/useDocumentTitle"
+import AppRoutes from "./routes/AppRoutes"
 
 function App() {
-  useDocumentTitle('Home');
-
   return (
     <>
       <h1>Home</h1>

@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "routes/AppRoutes.tsx"]
+  "include": ["src", "src/routes/AppRoutes.tsx"]
 }
