@@ -21,10 +21,52 @@ body{
     color: var(--main-color);
   }
 
+  .divider-sections {
+    @apply border-t-2 my-12 w-24 mx-auto;
+    border-color: var(--main-fg-color);
+  }
+
   .text-main-style {
+    @apply cursor-pointer rounded-xl p-6 shadow-md flex-1 min-w-[250px] hover:-translate-y-2 transition-transform duration-300;
     color: var(--main-fg-color);
     background-color: var(--main-bg-color);
-    @apply cursor-pointer rounded-xl p-6 shadow-md flex-1 min-w-[250px] hover:-translate-y-2 transition-transform duration-300;
+  }
+
+  .neon-pulse {
+    color: var(--main-color);
+    animation: neonPulse 1.5s ease-in-out infinite alternate;
+    text-shadow:
+      0 0 5px var(--main-color),
+      0 0 10px var(--main-color),
+      0 0 20px var(--main-color),
+      0 0 30px var(--main-color);
+  }
+
+  @keyframes neonPulse {
+    0% {
+      text-shadow:
+        0 0 5px var(--main-color),
+        0 0 10px var(--main-color),
+        0 0 20px var(--main-color),
+        0 0 30px var(--main-color);
+      color: var(--main-color);
+    }
+    50% {
+      text-shadow:
+        0 0 15px var(--main-color),
+        0 0 25px var(--main-color),
+        0 0 35px var(--main-color),
+        0 0 50px var(--main-color);
+      color: #40b6ff; /* cor mais clara para o pulso */
+    }
+    100% {
+      text-shadow:
+        0 0 5px var(--main-color),
+        0 0 10px var(--main-color),
+        0 0 20px var(--main-color),
+        0 0 30px var(--main-color);
+      color: var(--main-color);
+    }
   }
 }
 

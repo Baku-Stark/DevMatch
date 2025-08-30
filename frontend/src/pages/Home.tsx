@@ -29,7 +29,7 @@ export default function Home() {
                     Welcome
                 </h1>
                 <p
-                    className="text-xl md:text-2xl max-w-2xl min-h-[4rem]"
+                    className="text-xl md:text-2xl max-w-2xl min-h-[4rem] opacity-80"
                     style={{ color: 'var(--main-fg-color)' }}>
                     {typedText}
                 </p>
@@ -41,34 +41,72 @@ export default function Home() {
             <div className="divider-curve" />
 
             <SectionContainer>
-                 <header className='mb-12'>
-                        <h1 className="heading-main text-main-color">
-                            DevMatch - Social Media</h1>
-                        <p className="text-lg mb-8 opacity-50">
-                            Our platform connects developers to share knowledge, mentor one another, and grow together.
-                        </p>
-                    </header>
+                <header className='mb-12'>
+                    <h1 className="heading-main text-main-color">
+                        DevMatch - Social Media</h1>
+                    <p className="text-lg mb-8 opacity-50">
+                        Our platform connects developers to share knowledge, mentor one another, and grow together.
+                    </p>
+                </header>
 
-                    <div className="flex flex-wrap justify-center gap-6">
-                        <article className="text-main-style">
-                            <h2 className="mb-3 text-xl">Connect</h2>
+                <div className="flex flex-wrap justify-center gap-6">
+                    <article className="text-main-style">
+                        <h2 className="mb-3 text-xl">Connect</h2>
+                        <p>
+                            Build meaningful relationships with developers worldwide
+                        </p>
+                    </article>
+                    <article className="text-main-style">
+                        <h2 className="mb-3 text-xl">Mentor</h2>
+                        <p>
+                            Share your expertise and grow your skills through mentorship.
+                        </p>
+                    </article>
+                    <article className="text-main-style">
+                        <h2 className="mb-3 text-xl">Grow</h2>
+                        <p>
+                            Access valuable resources and foster your professional development.
+                        </p>
+                    </article>
+                </div>
+
+                <hr className="divider-sections" />
+
+                <section className="py-16 bg-main-bg-color text-main-fg-color text-center">
+                    <h2 className="heading-main mb-10">How It Works</h2>
+                    <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-around gap-8">
+                        <div className="flex flex-col items-center p-6 bg-main-color rounded-xl shadow-lg">
+                            <i className="bi bi-globe text-5xl mb-10 neon-pulse"></i>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Discover
+                            </h3>
                             <p>
-                                Build meaningful relationships with developers worldwide
+                                Find developers and mentors suited to your goals.
                             </p>
-                        </article>
-                        <article className="text-main-style">
-                            <h2 className="mb-3 text-xl">Mentor</h2>
+                        </div>
+                        <div className="flex flex-col items-center p-6 bg-main-color rounded-xl shadow-lg">
+                            <i className="bi bi-hand-thumbs-up-fill text-5xl mb-10 neon-pulse"></i>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Sections
+                            </h3>
                             <p>
-                                Share your expertise and grow your skills through mentorship.
+                                Engage in meaningful conversations and collaborations.
                             </p>
-                        </article>
-                        <article className="text-main-style">
-                            <h2 className="mb-3 text-xl">Grow</h2>
+                        </div>
+                        <div className="flex flex-col items-center p-6 bg-main-color rounded-xl shadow-lg">
+                            <i className="bi bi-share-fill text-5xl mb-10 neon-pulse"></i>
+                            <h3 className="text-xl font-semibold mb-2">
+                                Share
+                            </h3>
                             <p>
-                                Access valuable resources and foster your professional development.
+                                Contribute knowledge and help others grow alongside you.
                             </p>
-                        </article>
+                        </div>
                     </div>
+                </section>
+
+                <hr className="divider-sections" />
+
             </SectionContainer>
         </main>
     );
