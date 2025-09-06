@@ -50,19 +50,19 @@ export default function Home() {
                 </header>
 
                 <div className="flex flex-wrap justify-center gap-6">
-                    <article className="text-main-style">
+                    <article className="article-main-style">
                         <h2 className="mb-3 text-xl">Connect</h2>
                         <p>
                             Build meaningful relationships with developers worldwide
                         </p>
                     </article>
-                    <article className="text-main-style">
+                    <article className="article-main-style">
                         <h2 className="mb-3 text-xl">Mentor</h2>
                         <p>
                             Share your expertise and grow your skills through mentorship.
                         </p>
                     </article>
-                    <article className="text-main-style">
+                    <article className="article-main-style">
                         <h2 className="mb-3 text-xl">Grow</h2>
                         <p>
                             Access valuable resources and foster your professional development.
