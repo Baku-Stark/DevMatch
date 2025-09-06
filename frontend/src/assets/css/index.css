@@ -16,6 +16,10 @@ body{
 }
 
 @layer components {
+  .text-main-color{
+    color: var(--main-color);
+  }
+  
   .heading-main {
     @apply text-5xl md:text-6xl font-extrabold mb-4;
     color: var(--main-color);

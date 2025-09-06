@@ -18,15 +18,15 @@ export default function SidebarWithToggle() {
     { label: "About", icon: Settings, href: "/pages/about" },
   ];
 
-  // 🔹 Desabilitar o scroll do body quando a sidebar estiver aberta
+  // 🔹 Disable the body scroll when the sidebar is open
   useEffect(() => {
     if (sidebarOpen) {
-      document.body.style.overflow = "hidden"; // disable o scroll
+      document.body.style.overflow = "hidden"; // disable scroll
     } else {
-      document.body.style.overflow = ""; // reativa o scroll
+      document.body.style.overflow = ""; // reactive scroll
     }
     return () => {
-      document.body.style.overflow = ""; // limpa ao desmontar
+      document.body.style.overflow = ""; // clean upon disassembly
     };
   }, [sidebarOpen]);
 
@@ -53,6 +53,13 @@ export default function SidebarWithToggle() {
       >
         {/* Header da Sidebar */}
         <div className="flex justify-between items-center p-6 border-b border-gray-800">
+          <img
+            src="/assets/images/devmatch_icon.png"
+            alt="DevMatch Icon"
+            style={{
+              width: "25px",
+              height: "25px"
+            }}/>
           <h2 className="text-2xl font-bold text-main-color tracking-wide">
             DevMatch
           </h2>
