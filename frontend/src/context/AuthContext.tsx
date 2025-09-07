@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+
 import axios from "axios";
 
 interface User {
@@ -6,6 +7,11 @@ interface User {
   name: string;
   email: string;
   avatar?: string;
+}
+
+export interface IUserLogin{
+    email?: string,
+    password?: string
 }
 
 export interface IUserRegister{
@@ -28,72 +34,94 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem("devmatch:user");
-    if (savedUser) setUser(JSON.parse(savedUser));
-    setLoading(false);
-  }, []);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
-  // Criar conta manualmente
-  const signup = async (data: { name: string; email: string; password: string }) => {
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/auth/signup", data);
-      setUser(response.data.user);
-      localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
-      localStorage.setItem("devmatch:token", response.data.token);
-    } finally {
-      setLoading(false);
-    }
-  };
+    useEffect(() => {
+        const savedUser = localStorage.getItem("devmatch:user");
+        if (savedUser) setUser(JSON.parse(savedUser));
+        setLoading(false);
+    }, []);
 
-  // Login manual
-  const signin = async (email: string, password: string) => {
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/auth/signin", { email, password });
-      setUser(response.data.user);
-      localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
-      localStorage.setItem("devmatch:token", response.data.token);
-    } finally {
-      setLoading(false);
-    }
-  };
+    /**
+     * # Manual create account Method
+     * 
+     * File: `AuthConext`
+     * 
+     * @param data JSON
+     */
+    const signup = async (data: { name: string; email: string; password: string }) => {
+        try {
+            setLoading(true);
+            const response = await axios.post("/api/auth/signup", data);
+            setUser(response.data.user);
+            localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
+            localStorage.setItem("devmatch:token", response.data.token);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  // OAuth Google
-  const signinWithGoogle = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
-  };
+    /**
+     * # Login Auth Method
+     * 
+     * File: `AuthConext`
+     * 
+     * @param email User's email
+     * @param password User's password
+    */
+    const signin = async (email: string, password: string) => {
+        try {
+            setLoading(true);
+            const response = await axios.post("/api/auth/signin", { email, password });
+            setUser(response.data.user);
+            localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
+            localStorage.setItem("devmatch:token", response.data.token);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  // OAuth GitHub
-  const signinWithGithub = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`;
-  };
+    /**
+     * # OAuth Google
+     * 
+     * File: `AuthConext`
+     */
+    const signinWithGoogle = () => {
+        window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+    };
 
-  const logout = () => {
-    localStorage.removeItem("devmatch:user");
-    localStorage.removeItem("devmatch:token");
-    setUser(null);
-  };
+    /**
+     * # OAuth GitHub
+     * 
+     * File: `AuthConext`
+     */
+    const signinWithGithub = () => {
+        window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`;
+    };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        signin,
-        signup,
-        signinWithGoogle,
-        signinWithGithub,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    const logout = () => {
+            localStorage.removeItem("devmatch:user");
+            localStorage.removeItem("devmatch:token");
+            setUser(null);
+    };
+
+    return (
+        <AuthContext.Provider
+        value={{
+            user,
+            loading,
+            signin,
+            signup,
+            signinWithGoogle,
+            signinWithGithub,
+            logout,
+        }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {

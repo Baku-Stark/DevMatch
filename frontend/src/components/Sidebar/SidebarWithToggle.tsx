@@ -32,9 +32,9 @@ export default function SidebarWithToggle() {
   const handleAuthClick = async () => {
     if (user) {
       await logout();
-      navigate(ROUTES.SIGN_IN);
+      navigate(ROUTES.PROFILE(1));
     } else {
-      navigate(ROUTES.SIGN_UP);
+      navigate(ROUTES.SIGN_IN);
     }
     setSidebarOpen(false);
   };
@@ -115,7 +115,7 @@ export default function SidebarWithToggle() {
         {/* Divider */}
         <div className="border-t border-gray-800 my-4 mx-6" />
 
-        {/* Botão de Logout ou Sign In */}
+        {/* Logout or Sign In Button */}
         <div className="p-6">
           <button
             onClick={handleAuthClick}
@@ -142,7 +142,6 @@ export default function SidebarWithToggle() {
         </div>
       </aside>
 
-      {/* Overlay mais escuro com opacity-75 */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-75 z-20 transition-opacity duration-300"
