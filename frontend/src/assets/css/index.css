@@ -36,6 +36,10 @@ body{
     background-color: var(--main-bg-color);
   }
 
+  .subtext{
+    @apply text-gray-400 mt-2 text-base opacity-50;
+  }
+
   .neon-pulse {
     color: var(--main-color);
     animation: neonPulse 1.5s ease-in-out infinite alternate;

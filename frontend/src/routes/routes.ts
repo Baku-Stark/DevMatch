@@ -3,14 +3,13 @@
 export const ROUTES = {
   HOME: "/",
   ABOUT: "/pages/about",
-  DASHBOARD: "/pages/dashboard",
   MENTORS: "/pages/mentors",
   MENTORSHIPS: "/pages/mentorships",
+  SIGN_IN: "/pages/signIn",
+  SIGN_UP: "/pages/singUp",
 
   // 🔹 Routes with dynamic parameters
   PROFILE: (id: string | number) => `/pages/profile_id=${id}`,
-  EDIT_PROFILE: (id: string | number) => `/pages/profile/edit/${id}`,
-  CHAT: (chatId: string) => `/chat/${chatId}`,
 
   // Example of nested routes
   SETTINGS: {

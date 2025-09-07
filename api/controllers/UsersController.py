@@ -70,7 +70,6 @@ async def sign_up(new_user : UserCreate, request: Request, db : Session = Depend
     return query
 
 # USUÁRIO DECIDIU APAGAR SUA CONTA
-
 @router.delete(
     "/delete_user_by_id",
     status_code=status.HTTP_202_ACCEPTED,
