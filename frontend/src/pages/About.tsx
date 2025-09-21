@@ -95,6 +95,70 @@ export default function About() {
         </div>
 
         <hr className="divider-sections" />
+
+        {/* ABOUT THE DEVELOPER */}
+        <div className="text-center mt-12">
+            
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-main-color neon-pulse">
+            Developer
+          </h2>
+
+          <div className="max-w-3xl mx-auto bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 md:p-10
+                          border border-gray-700">
+            {/* Profile Icon */}
+            <div className="flex justify-center mb-6">
+              <img
+                src="https://avatars.githubusercontent.com/u/103138773?v=4"
+                alt="Developer Photo"
+                className="w-32 h-32 rounded-full border-4 border-main-color shadow-lg object-cover"
+              />
+            </div>
+
+            {/* Name */}
+            <h3 className="text-2xl font-bold text-white mb-2">
+              Wallace "Baku Stark"
+            </h3>
+
+            {/* Stacks */}
+            <p className="text-main-color text-lg mb-4 font-medium">
+              Full Stack Developer n’ Software Engineering | Pentest - White Hat Hacking | Python | Node JS | TypeScript | Java | Spring 
+            </p>
+
+            {/* Bio */}
+            <p className="text-gray-300 text-base leading-relaxed mb-6 opacity-75">
+              I work as a full stack developer with solid experience in Python, Node.js, TypeScript, Java, and Spring, building robust, scalable, and secure solutions. I have knowledge in penetration testing (pentest), which allows me to integrate security from the early phases of development.With a focus on delivering value and quality, I enjoy working with good coding practices, process automation, and continuous integration. I am driven by technical challenges and constant learning.
+            </p>
+
+            {/* Social Media Links */}
+            <div className="flex justify-center gap-6">
+              <a
+                href="https://github.com/Baku-Stark"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-main-color transition-colors duration-300 cursor-pointer hover:shadow-2xl hover:scale-[1.02]"
+              >
+                <i className="devicon-github-original text-3xl"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/wallace-freitas-92a2061b6/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-main-color transition-colors duration-300 cursor-pointer hover:shadow-2xl hover:scale-[1.02]"
+              >
+                <i className="devicon-linkedin-plain text-3xl"></i>
+              </a>
+              <a
+                href="https://twitter.com/Walleemc2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-main-color transition-colors duration-300 cursor-pointer hover:shadow-2xl hover:scale-[1.02]"
+              >
+                <i className="devicon-twitter-original text-3xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
       </SectionContainer>
     </section>
   );

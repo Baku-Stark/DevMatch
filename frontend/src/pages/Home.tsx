@@ -1,12 +1,31 @@
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import SectionContainer from '../components/Containers/SectionContainer';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../routes/routes';
 
 export default function Home() {
+    const navigate = useNavigate();
+
     const typedText = useTypingEffect(
         'Connect. Mentor. Grow. A platform built for developers to share knowledge and build meaningful connections.',
         60,
         true
     );
+
+    function NavigationPages(routeChoice : string){
+        switch(routeChoice){
+            case "signIn":
+                navigate(ROUTES.SIGN_IN);
+                break;
+
+            case "signUp":
+                navigate(ROUTES.SIGN_UP);
+                break;
+
+            default:
+                break;
+        }
+    }
 
     return (
         <main>
@@ -33,8 +52,10 @@ export default function Home() {
                         {typedText}
                     </p>
 
-                    <button className="mt-10 px-6 py-3 rounded-xl text-lg font-semibold shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                        style={{ backgroundColor: 'var(--main-color)', color: 'var(--main-bg-color)' }}>
+                    <button 
+                        className="mt-10 px-6 py-3 rounded-xl text-lg font-semibold shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer"
+                        style={{ backgroundColor: 'var(--main-color)', color: 'var(--main-bg-color)' }}
+                        onClick={() => NavigationPages('signIn')}>
                         Join DevMatch Now
                     </button>
                 </div>
@@ -44,7 +65,7 @@ export default function Home() {
             <div className="divider-curve" />
 
             <SectionContainer>
-                {/* SOBRE A PLATAFORMA */}
+                {/* ABOUT SOCIAL MEDIA */}
                 <header className='mb-12'>
                     <h1 className="heading-main text-main-color">
                         DevMatch - Social Media</h1>
@@ -53,7 +74,7 @@ export default function Home() {
                     </p>
                 </header>
 
-                {/* BENEFÍCIOS */}
+                {/* BENEFITS */}
                 <div className="flex flex-wrap justify-center gap-6">
                     <article className="article-main-style">
                         <h2 className="mb-3 text-xl">Connect</h2>
@@ -77,7 +98,7 @@ export default function Home() {
 
                 <hr className="divider-sections" />
 
-                {/* COMO FUNCIONA */}
+                {/* HOW IT WORKS */}
                 <section className="py-16 bg-main-bg-color text-main-fg-color text-center">
                     <h2 className="heading-main mb-10">How It Works</h2>
                     <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-around gap-8">
@@ -101,7 +122,7 @@ export default function Home() {
 
                 <hr className="divider-sections" />
 
-                {/* DEPOIMENTOS */}
+                {/* ABOUT USERS (using fictional examples) */}
                 <section className="py-16 text-center">
                     <h2 className="heading-main mb-10">What Our Users Say</h2>
                     <div className="flex flex-col md:flex-row justify-center gap-6">
@@ -134,6 +155,7 @@ export default function Home() {
                             backgroundColor: 'var(--main-bg-color)',
                             color: 'var(--main-color)',
                         }}
+                        onClick={() => NavigationPages('signUp')}
                     >
                         Get Started Now
                     </button>
