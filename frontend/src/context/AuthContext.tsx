@@ -16,13 +16,6 @@ export interface IUserLogin{
     password?: string
 }
 
-export interface IUserRegister{
-    name?: string,
-    email?: string,
-    password?: string,
-    confirmPassword?: string,
-}
-
 interface AuthContextProps {
   user: User | null;
   loading: boolean;
