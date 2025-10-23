@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
 import axios from "axios";
+import { auth } from "../services/firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 interface User {
   id: string;
@@ -26,8 +28,8 @@ interface AuthContextProps {
   loading: boolean;
   signin: (email: string, password: string) => Promise<void>;
   signup: (data: { name: string; email: string; password: string }) => Promise<void>;
-  signinWithGoogle: () => void;
-  signinWithGithub: () => void;
+  AuthWithGoogle: () => void;
+  AuthWithGithub: () => void;
   logout: () => void;
 }
 
@@ -88,8 +90,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      * 
      * File: `AuthConext`
      */
-    const signinWithGoogle = () => {
-        window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+    const AuthWithGoogle = async () => {
+        console.log(`%c AUTH %c GOOGLE `, 
+            'background: #C4473A; color: #f0eff5; font-weight: bold;',
+            'background: #f0f8ff; color: #111111; font-weight: bold;'
+        );
+
+        const provider = new GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        provider.setCustomParameters({
+            'login_hint': 'user@example.com'
+        });
+
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential?.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+                // ...
+                console.log(user);
+             }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+                //console.error(errorMessage);
+            });
     };
 
     /**
@@ -97,7 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      * 
      * File: `AuthConext`
      */
-    const signinWithGithub = () => {
+    const AuthWithGithub = () => {
         window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`;
     };
 
@@ -114,8 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             loading,
             signin,
             signup,
-            signinWithGoogle,
-            signinWithGithub,
+            AuthWithGoogle,
+            AuthWithGithub,
             logout,
         }}
         >
