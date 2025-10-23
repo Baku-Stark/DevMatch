@@ -86,9 +86,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     /**
-     * # OAuth Google
+     * # OAuth Google 
      * 
      * File: `AuthConext`
+     * Link: https://firebase.google.com/docs/auth/web/google-signin?hl=pt-br
      */
     const AuthWithGoogle = async () => {
         console.log(`%c AUTH %c GOOGLE `, 
