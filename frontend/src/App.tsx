@@ -1,4 +1,4 @@
-import SidebarWithToggle from "./components/Sidebar/SidebarWithToggle";
+import SidebarWithToggle from "./components/Containers/SidebarWithToggle";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
