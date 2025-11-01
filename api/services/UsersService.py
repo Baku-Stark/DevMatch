@@ -39,7 +39,6 @@ def insert_new_user(new_user : User, db : Session) -> User:
         O usuário criado com campos atualizados do banco.
     """
     try:
-        logger.debug(f"Inserindo novo usuário : {new_user}")
         db.add(new_user)
     except Exception as error:
         db.rollback()
@@ -47,7 +46,6 @@ def insert_new_user(new_user : User, db : Session) -> User:
     finally:
         db.commit()
         db.refresh(new_user)
-    logger.info(f"Usuário {new_user} foi criado.")
     return new_user
 
 # ATUALIZAR INFORMAÇÕES

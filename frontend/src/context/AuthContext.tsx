@@ -3,12 +3,13 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from "
 import axios from "axios";
 import { auth } from "../services/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { ENV } from "../config/env";
 
 interface User {
-  id: string;
   name: string;
   email: string;
-  avatar?: string;
+  role: string;
+  avatar_url?: string;
 }
 
 export interface IUserLogin{
@@ -20,7 +21,7 @@ interface AuthContextProps {
   user: User | null;
   loading: boolean;
   signin: (email: string, password: string) => Promise<void>;
-  signup: (data: { name: string; email: string; password: string }) => Promise<void>;
+  signup: (data: User) => Promise<void>;
   AuthWithGoogle: () => void;
   AuthWithGithub: () => void;
   logout: () => void;
@@ -29,7 +30,6 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -46,13 +46,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      * 
      * @param data JSON
      */
-    const signup = async (data: { name: string; email: string; password: string }) => {
+    const signup = async (data: User) => {
         try {
             setLoading(true);
-            const response = await axios.post("/api/auth/signup", data);
-            setUser(response.data.user);
-            localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
-            localStorage.setItem("devmatch:token", response.data.token);
+            const response = await axios.post(
+                `${ENV.APIROUTE}/users/sign_up`, 
+                {
+                    name: data.name,
+                    email: data.email,
+                    role: data.role,
+                    avatar_url: data.avatar_url
+                }
+            );
+
+            if(response.status == 201){
+                //console.log(response);
+                
+                setUser(response.data);
+                localStorage.setItem("devmatch:user", response.data.email);
+                localStorage.setItem("devmatch:token", "JWT_signUp");
+            }
+        
         } finally {
             setLoading(false);
         }
@@ -72,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const response = await axios.post("/api/auth/signin", { email, password });
             setUser(response.data.user);
             localStorage.setItem("devmatch:user", JSON.stringify(response.data.user));
-            localStorage.setItem("devmatch:token", response.data.token);
+            localStorage.setItem("devmatch:token", "JWT_signIn");
         } finally {
             setLoading(false);
         }
@@ -85,38 +99,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      * Link: https://firebase.google.com/docs/auth/web/google-signin?hl=pt-br
      */
     const AuthWithGoogle = async () => {
-        console.log(`%c AUTH %c GOOGLE `, 
-            'background: #C4473A; color: #f0eff5; font-weight: bold;',
-            'background: #f0f8ff; color: #111111; font-weight: bold;'
-        );
+        try{
 
-        const provider = new GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        provider.setCustomParameters({
-            'login_hint': 'user@example.com'
-        });
-
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential?.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-                console.log(user);
-             }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-                //console.error(errorMessage);
+            console.log(`%c AUTH %c GOOGLE `, 
+                'background: #C4473A; color: #f0eff5; font-weight: bold;',
+                'background: #f0f8ff; color: #111111; font-weight: bold;'
+            );
+    
+            const provider = new GoogleAuthProvider();
+            provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+            provider.setCustomParameters({
+                'login_hint': 'user@example.com'
             });
+    
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential?.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+                    //console.log(user);
+    
+                    const newUser = {
+                        name: user.displayName ?? "",
+                        email: user.email ?? "",
+                        role: "",
+                        avatar_url: user.photoURL ?? "",
+                    };
+                    //console.log(newUser);
+                    setUser(newUser);
+
+                    //localStorage.setItem("devmatch:token", token ?? "");
+                    localStorage.setItem("devmatch:pendingRole", "true");
+                 }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    // ...
+                    //console.error(errorMessage);
+                });
+        } catch (error){
+            console.error("Google Auth Error:", error);
+        }
     };
 
     /**
@@ -136,15 +167,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return (
         <AuthContext.Provider
-        value={{
-            user,
-            loading,
-            signin,
-            signup,
-            AuthWithGoogle,
-            AuthWithGithub,
-            logout,
-        }}
+            value={{
+                user,
+                loading,
+                signin,
+                signup,
+                AuthWithGoogle,
+                AuthWithGithub,
+                logout,
+            }}
         >
             {children}
         </AuthContext.Provider>

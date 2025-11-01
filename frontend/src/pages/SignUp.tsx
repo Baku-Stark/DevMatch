@@ -2,10 +2,30 @@ import { Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { ROUTES } from "../routes/routes";
+import { useEffect, useState } from "react";
+import { RoleSelectionModal } from "../components/RoleSelectionModal";
 
 
 export default function SignUp() {
-    const { AuthWithGithub, AuthWithGoogle } = useAuth();
+    const { AuthWithGoogle, AuthWithGithub, user, signup } = useAuth();
+    const [showRoleModal, setShowRoleModal] = useState(false);
+
+    useEffect(() => {
+        const pending = localStorage.getItem("devmatch:pendingRole");
+        if (user && pending) setShowRoleModal(true);
+    }, [user]);
+
+    const handleRoleSelect = async (role: "mentor" | "mentee") => {
+        localStorage.removeItem("devmatch:pendingRole");
+        setShowRoleModal(false);
+        user!.role = role;
+
+        //console.log(user);
+        
+        signup(user!);
+
+        alert(`Welcome to DevMatch as a ${role}!`);
+    };
 
     return (
         <main className="min-h-screen flex items-center justify-center bg-main-bg-color px-6">
@@ -58,6 +78,8 @@ export default function SignUp() {
                     </Link>
                 </p>
             </div>
+
+            {showRoleModal && <RoleSelectionModal onSelect={handleRoleSelect} />}
         </main>
     );
 }

@@ -55,15 +55,16 @@ async def list_users(request: Request, db: Session = Depends(get_db)):
 )
 async def sign_up(new_user : UserCreate, request: Request, db : Session = Depends(get_db)):
     user_ip = request.client.host
+    #print(new_user.model_dump())
 
     try:
         query = insert_new_user(User(**new_user.model_dump()), db)
 
     except Exception as error:
-        logger.error(f"Erro na resquisição ('{request.url}')")
+        logger.error(f"Erro na resquisição ('{request.url}') -> {error}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(error)
+            detail=str("BAD Request error")
         ) from error
 
     logger.info(f"Criação do usuário [IP:{user_ip}] : {new_user}")

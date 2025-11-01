@@ -6,4 +6,5 @@ export const ENV = {
   MESSAGING_SENDER_ID: import.meta.env.VITE_MESSAGING_SENDER_ID as string,
   APP_ID: import.meta.env.VITE_APP_ID as string,
   MEASUREMENT_ID: import.meta.env.VITE_MEASUREMENT_ID as string,
+  APIROUTE: import.meta.env.VITE_APIROUTE as string
 };
