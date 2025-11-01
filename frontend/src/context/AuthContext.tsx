@@ -59,12 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 }
             );
 
+            const dataResponse = response.data;
+
             if(response.status == 201){
-                //console.log(response);
-                
-                setUser(response.data);
-                localStorage.setItem("devmatch:user", response.data.email);
-                localStorage.setItem("devmatch:token", "JWT_signUp");
+                console.log(dataResponse);
+
+                setUser(dataResponse.data);
+                localStorage.setItem("devmatch:user", dataResponse.data.email);
+                localStorage.setItem("devmatch:token", dataResponse.token);
             }
         
         } finally {

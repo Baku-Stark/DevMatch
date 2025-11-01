@@ -1,6 +1,10 @@
 from uuid import UUID
+
+import fastapi.exceptions
+
 from api.logger import logger
 from api.services.Monitoramento import Monitoramento
+from api.utils.jwt_handler import create_access_token
 from api.services.UsersService import insert_new_user, findall_users, delete_a_user
 
 monitor = Monitoramento()
@@ -9,7 +13,7 @@ from fastapi import APIRouter, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
 
 from api.models.user import User
-from api.schemas.user import UserRead, UserCreate
+from api.schemas.user import UserRead, UserCreate, UserWithToken
 
 router = APIRouter()
 
@@ -49,16 +53,18 @@ async def list_users(request: Request, db: Session = Depends(get_db)):
 # CRIAÇÃO DE UM NOVO USUÁRIO
 @router.post(
     "/sign_up",
-    response_model=UserRead,
+    response_model=UserWithToken,
     status_code=status.HTTP_201_CREATED,
     summary="Registrar novos usuários"
 )
 async def sign_up(new_user : UserCreate, request: Request, db : Session = Depends(get_db)):
+    global created_user
     user_ip = request.client.host
     #print(new_user.model_dump())
 
     try:
-        query = insert_new_user(User(**new_user.model_dump()), db)
+        created_user = insert_new_user(User(**new_user.model_dump()), db)
+        token = create_access_token(created_user)
 
     except Exception as error:
         logger.error(f"Erro na resquisição ('{request.url}') -> {error}")
@@ -67,8 +73,15 @@ async def sign_up(new_user : UserCreate, request: Request, db : Session = Depend
             detail=str("BAD Request error")
         ) from error
 
-    logger.info(f"Criação do usuário [IP:{user_ip}] : {new_user}")
-    return query
+    except fastapi.exceptions.ResponseValidationError as fastapierror:
+        logger.error(f"Erro na resquisição ('{request.url}') -> {fastapierror}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str("BAD Request error")
+        ) from fastapierror
+
+    logger.info(f"Criação do usuário [IP:{user_ip}] : {created_user.id}")
+    return {"data": created_user, "token": token}
 
 # USUÁRIO DECIDIU APAGAR SUA CONTA
 @router.delete(

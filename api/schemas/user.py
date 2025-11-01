@@ -35,3 +35,7 @@ class UserRead(UserBase):
 
     class Config:
         from_attributes = True
+
+class UserWithToken(BaseModel):
+    data: UserRead
+    token: str
