@@ -1,8 +1,6 @@
-import jwt
-import os
+import jwt, os
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any
-from api.models.user import User
+from typing import Any
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,37 +10,34 @@ ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", 44640))  # 31 dias
 
 
-def create_access_token(data: User) -> str:
+def create_access_token(data: Any) -> str:
     """
     Gera um token JWT com claims seguros e personalizados.
+    Aceita objetos ORM ou Pydantic.
     """
     now = datetime.now(timezone.utc)
     expire = now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     payload = {
-        "iss": "devmatch.api",                 # Emissor
-        "aud": "devmatch.users",               # Público esperado
-        "iat": int(now.timestamp()),           # Timestamp (int)
+        "iss": "devmatch.api",
+        "aud": "devmatch.users",
+        "iat": int(now.timestamp()),
         "nbf": int(now.timestamp()),
-        "exp": int(expire.timestamp()),        # Expiração em segundos
-        "sub": str(data.id),            # Identificador do usuário
+        "exp": int(expire.timestamp()),
+        "sub": str(data.id),
         "email": str(data.email),
         "role": str(data.role),
         "name": str(data.name),
         "avatar_url": str(data.avatar_url),
     }
 
-    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-    return token
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
-def verify_token(token: str) -> Dict[str, Any]:
-    """
-    Valida e decodifica o JWT.
-    """
+def verify_token(token: str) -> bool:
     try:
-        decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], audience="devmatch.users")
-        return decoded
+        jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], audience="devmatch.users")
+        return True
     except jwt.ExpiredSignatureError:
         raise ValueError("Token expirado")
     except jwt.InvalidAudienceError:

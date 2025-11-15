@@ -4,6 +4,11 @@ from fastapi import APIRouter
 
 controllers = [
     {
+        "module": "controllers.AdminTokenGeneratorController",
+        "prefix": "",
+        "tags": ["ADMIN"]
+    },
+    {
         "module": "controllers.HomeRouter",
         "prefix": "/api/v2",
         "tags": ["Home"]
